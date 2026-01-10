@@ -1,34 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>FairShop am RGW</title>
     <meta name="description" content="FairShop am RGW – Fair gehandelte Produkte, Nachhaltigkeit und Informationen" />
-
-        <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, query, where } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
-
-        // Firebase configuration - REPLACE WITH YOUR OWN
-        const firebaseConfig = {
-            apiKey: "AIzaSyBwpyIIaykAGa5hLcQoqviJBfiuADg-NPY",
-            authDomain: "fairshop-rgw.firebasestorage.com",
-            projectId: "fairshop-rgw",
-            storageBucket: "fairshop-rgw.firebasestorage.com",
-            messagingSenderId: "947115847170",
-            appId: "1:974115847170:web:4e406d321a3a815fb7c11b"
-            measurementId: "G-6YH3ZZSSSL"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Make db global for use in other scripts
-        window.db = db;
-    </script>
 
     <style>
                :root{
@@ -345,7 +321,7 @@
     
         <div class="container nav">
             <a href="#home" class="brand" aria-label="FairShop am RGW Home">
-                <div class="logo" onclick="openLoginModal()">FS</div>
+                <div class="logo">FS</div>
                 <div>
                     <div style="font-weight:700">FairShop</div>
                     <div style="font-size:12px;color:var(--muted)">am RGW</div>
@@ -357,66 +333,18 @@
                     <path d="M3 6h18M3 12h18M3 18h18"></path>
                 </svg>
             </button>
-<img class="rgw-fair-logo" src="/shop/bilder/rgw_fair.png" alt="RGW X Fair">
+<img class="rgw-fair-logo" src="/bilder/rgw_fair.png" alt="RGW X Fair">
             <nav id="main-nav" aria-label="Hauptnavigation">
                 <ul>
                     <li><a href="#home" class="nav-link active">Home</a></li>
                     <li><a href="#info" class="nav-link">Info</a></li>
                     <li><a href="#produkte" class="nav-link">Produkte</a></li>
-                    <li><a href="#blog" class="nav-link">Blog</a></li>
                     <li><a href="#kontakt" class="nav-link">Kontakt</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-
-    <!-- Login Modal -->
-    <div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-        <div style="background:white; padding:20px; border-radius:10px; max-width:400px; width:90%;">
-            <h2>Admin Login</h2>
-            <input type="text" id="adminUsername" placeholder="Benutzername" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
-            <input type="password" id="adminPassword" placeholder="Passwort" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
-            <button onclick="login()" style="width:100%; padding:10px; background:var(--fair-blue); color:white; border:none; border-radius:5px;">Login</button>
-            <button onclick="closeLoginModal()" style="width:100%; padding:10px; margin-top:10px; background:#ccc; border:none; border-radius:5px;">Abbrechen</button>
-        </div>
-    </div>
-
-    <!-- Admin Panel -->
-    <div id="adminPanel" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:1001; overflow-y:auto;">
-        <div style="padding:20px;">
-            <button onclick="logout()" style="float:right; padding:10px; background:#f00; color:white; border:none; border-radius:5px;">Logout</button>
-            <h1>Admin Panel</h1>
-            <div style="display:flex; margin-top:20px;">
-                <button id="insightsBtn" onclick="showTab('insights')" class="tab-button active" style="padding:10px; background:var(--fair-blue); color:white; border:none; border-radius:5px;">Insights</button>
-                <button id="messagesBtn" onclick="showTab('messages')" class="tab-button" style="padding:10px; margin-left:10px; background:#ccc; border:none; border-radius:5px;">Nachrichten</button>
-                <button id="ordersBtn" onclick="showTab('orders')" class="tab-button" style="padding:10px; margin-left:10px; background:#ccc; border:none; border-radius:5px;">Bestellungen</button>
-                <button id="blogBtn" onclick="showTab('blog')" class="tab-button" style="padding:10px; margin-left:10px; background:#ccc; border:none; border-radius:5px;">Blog</button>
-            </div>
-            <div id="insightsTab" style="margin-top:20px; text-align: center;">
-                <h2>Aufruf Counter</h2>
-                <div id="pageViews" style="font-size: 72px; font-weight: bold; background: linear-gradient(45deg, var(--fair-blue), var(--fair-green)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; display: inline-block;">0</div>
-                <div id="calendar" style="margin-top:20px;"></div>
-                <div id="selectedDayViews" style="margin-top:20px; font-size:24px;"></div>
-            </div>
-            <div id="messagesTab" style="display:none; margin-top:20px;">
-                <h2>Nachrichten</h2>
-                <div id="messagesList"></div>
-            </div>
-            <div id="ordersTab" style="display:none; margin-top:20px;">
-                <h2>Bestellungen</h2>
-                <div id="ordersList"></div>
-            </div>
-            <div id="blogTab" style="display:none; margin-top:20px;">
-                <h2>Blog verwalten</h2>
-                <input type="text" id="blogTitle" placeholder="Titel" style="width:100%; padding:10px; margin:10px 0;">
-                <textarea id="blogContent" placeholder="Inhalt" style="width:100%; height:100px; padding:10px; margin:10px 0;"></textarea>
-                <input type="file" id="blogImage" accept="image/*" style="width:100%; padding:10px; margin:10px 0;">
-                <button onclick="addBlogPost()" style="padding:10px; background:var(--fair-green); color:white; border:none; border-radius:5px;">Post hinzufügen</button>
-                <div id="blogPostsList" style="margin-top:20px;"></div>
-            </div>
-        </div>
-    </div>
-
+ 
     <main class="container">
         <section id="home" class="hero" aria-label="Startseite">
             <div class="hero-grid">
@@ -484,7 +412,7 @@
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px">
                 <div class="card">
-                    <strong><a href="/shop/bilder/aktionen/Kaffe Aktion.pdf">Kaffe am Elternaprechtag</a></strong>
+                    <strong><a href="Kaffe Aktion.pdf">Kaffe am Elternaprechtag</a></strong>
                     <p class="small">Am Elternsprechtag verkaufen wir fair gehandelten Kaffe an die Eltern</p>
                 </div>
                 <div class="card">
@@ -492,11 +420,11 @@
                     <p class="small">An diesem Tag stellen wir uns unseren zukünftigen Schülern am RGW den Fair Shop vor. Außerdem gehen wir ab und zu in den Klassen rum und stellen uns vor</p>
                 </div>
                 <div class="card">
-                    <strong><a href="/shop/bilder/aktionen/Rosenaktion.pdf">Rosenaktion</a></strong>
+                    <strong><a href="Rosenaktion.pdf">Rosenaktion</a></strong>
                     <p class="small">Am Weltfrauen Tag verkaufen wir Rosen auf dem Schulhof.</p>
                 </div>
                  <div class="card">
-                    <strong><a href="/shop/bilder/aktionen/bananenaktion.pdf">Banananaktion</a></strong>
+                    <strong><a href="bananenaktion.pdf">Banananaktion</a></strong>
                     <p class="small">Die Bananan verteilen wir kostenlos an den Bundesjugendspielen an die mitlaufenden Kinder.</p>
                 </div>
             </div>
@@ -509,7 +437,7 @@
 
             <div class="products" role="list">
                 <article class="card" role="listitem">
-                    <img class="product-media" src="/shop/bilder/produktbilder/Schokoriegel.png" alt="Schoko Riegel">
+                    <img class="product-media" src="schoko_riegel.jpg" alt="Schoko Riegel">
                     <div>
                         <div style="display:flex;justify-content:space-between;align-items:center">
                             <strong>Schoko Riegel</strong>
@@ -523,7 +451,7 @@
                 </article>
 
                 <article class="card" role="listitem">
-                    <img class="product-media" src="/shop/bilder/produktbilder/Popquins.png" alt="Popquins">
+                    <img class="product-media" src="popquins.jpg" alt="Popquins">
                     <div>
                         <div style="display:flex;justify-content:space-between;align-items:center">
                             <strong>Popquins</strong>
@@ -537,7 +465,7 @@
                 </article>
 
                 <article class="card" role="listitem">
-                    <img class="product-media" src="/shop/bilder/produktbilder/Hazel-S.png" alt="Hazel Choc Crisp">
+                    <img class="product-media" src="hazel_choc_crisp.jpg" alt="Hazel Choc Crisp">
                     <div>
                         <div style="display:flex;justify-content:space-between;align-items:center">
                             <strong>Hazel Choc Crisp</strong>
@@ -551,7 +479,7 @@
                 </article>
 
                 <article class="card" role="listitem">
-                    <img class="product-media" src="/shop/bilder/produktbilder/Hazel-K.png" alt="Hazel Crisp">
+                    <img class="product-media" src="hazel_crisp.jpg" alt="Hazel Crisp">
                     <div>
                         <div style="display:flex;justify-content:space-between;align-items:center">
                             <strong>Hazel Choc</strong>
@@ -581,7 +509,7 @@
             </article>
 
             <article class="card" role="listitem">
-            <img class="product-media" src="/shop/bilder/produktbilder/Karamell.png" alt="Caramel Salz">
+            <img class="product-media" src="caramel_salz.jpg" alt="Caramel Salz">
             <div>
                 <div style="display:flex;justify-content:space-between;align-items:center">
                 <strong>Caramel Salz Schoki</strong>
@@ -595,7 +523,7 @@
             </article>
 
             <article class="card" role="listitem">
-            <img class="product-media" src="/shop/bilder/produktbilder/Erdbeere.png" alt="Erdbeer-Yoghurt">
+            <img class="product-media" src="erdbeer_yoghurt.jpg" alt="Erdbeer-Yoghurt">
             <div>
                 <div style="display:flex;justify-content:space-between;align-items:center">
                 <div style="display:flex;flex-direction:column">
@@ -611,7 +539,7 @@
             </article>
 
             <article class="card" role="listitem">
-            <img class="product-media" src="/shop/bilder/produktbilder/Gummibärchen.png" alt="Gummibärchen">
+            <img class="product-media" src="gummibaerchen.jpg" alt="Gummibärchen">
             <div>
                 <div style="display:flex;justify-content:space-between;align-items:center">
                 <strong>Gummibärchen</strong>
@@ -662,12 +590,6 @@
             </article>
         </div>
        
-        <section id="blog" aria-label="Blog">
-            <h2>Blog</h2>
-            <p class="lead">Bleiben Sie auf dem neuesten Stand mit unseren Neuigkeiten und Updates.</p>
-            <div id="publicBlogPosts"></div>
-        </section>
-
         <section id="kontakt" aria-label="Kontakt">
             <h2>Kontakt</h2>
             <p class="lead">Schreib uns oder komm vorbei. Wir freuen uns über Fragen, Anregungen und Unterstützung.</p>
@@ -681,7 +603,7 @@
                                 <input id="name" name="name" type="text" required placeholder="Vorname Nachname" />
                             </div>
                             <div class="field">
-                                <label for="email">E-Mail</label>
+                                <label for="email">E‑Mail</label>
                                 <input id="email" name="email" type="email" required placeholder="name@beispiel.de" />
                             </div>
                         </div>
@@ -734,45 +656,45 @@
             <p class="lead">Hier stellen wir unser engagiertes Team vor, das den FairShop am RGW möglich macht.</p>
             <div class="team-grid">
                 <div class="team-card">
-                    <img src="/shop/bilder/personal/Lackner.jpeg" alt="Kerstin Lackner" class="team-photo">
+                    <img src="/bilder/personal/Lackner.jpeg" alt="Kerstin Lackner" class="team-photo">
                     <div class="team-name">Kerstin Lackner</div>
                     <div class="team-role">Leitung & Organisation</div>
                 </div>
                 <div class="team-card">
-                    <img src="/shop/bilder/personal/Mio.jpeg" alt="Mio" class="team-photo">
+                    <img src="/bilder/personal/Mio.jpeg" alt="Mio" class="team-photo">
                     <div class="team-name">Mio</div>
                     <div class="team-role">Entwicklung, Dev & Web</div>
                 </div>
                 <div class="team-card">
-                    <img src="/shop/bilder/personal/Emily.Miyuki.jpeg" alt="Emily& Miyuki" class="team-photo">
+                    <img src="/bilder/personal/Emily.Miyuki.jpeg" alt="Emily& Miyuki" class="team-photo">
                     <div class="team-name">Elily& Miyuki</div>
-                    <div class="team-role">AG, Aktionen, VK</div>
+                    <div class="team-role">Verkauf & Beratung</div>
                 </div>
                 <div class="team-card">
-                    <img src="/shop/bilder/personal/FinjaSahra.jpeg" alt=Sara.Finja" class="team-photo">
+                    <img src="/bilder/personal/Finja.Sahra.jpeg" alt=Sara.Finja" class="team-photo">
                     <div class="team-name">Sahra& Finja</div>
-                    <div class="team-role">AG, Aktionen, VK</div>
+                    <div class="team-role">Verkauf</div>
                 </div>
                 <div class="team-card">
-                    <img src="/shop/bilder/personal/Melike.Lilia.jpeg" alt=Melike.Lilia" class="team-photo">
+                    <img src="/bilder/personal/Melike.Lilia.jpeg" alt=Melike.Lilia" class="team-photo">
                     <div class="team-name">Melike& Lilia</div>
-                    <div class="team-role">AG, Aktionen, VK</div>
+                    <div class="team-role">Verkauf, Aktionen</div>
                 </div>
                 <div class="team-card">
-                    <img src="/shop/bilder/personal/Masal.Josy.jpeg" alt=Masal.Josy" class="team-photo">
+                    <img src="/bilder/personal/Masal.Josy.jpeg" alt=Masal.Josy" class="team-photo">
                     <div class="team-name">Masal& Josy</div>
-                    <div class="team-role">AG, Aktionen, VK</div>
+                    <div class="team-role">AG, Aktionen</div>
                 </div>
                 <div class="team-card">
-                    <img src="/shop/bilder/personal/DVM.jpeg" alt=DVM" class="team-photo">
+                    <img src="/bilder/personal/DVM.jpeg" alt=DVM" class="team-photo">
                     <div class="team-name">Charlotte,Olli,Tiziana</div>
-                    <div class="team-role">AG, Aktionen, VK</div>
+                    <div class="team-role">Verkauf</div>
                 </div>
             
                 <div class="team-card">
-                    <img src="/shop/bilder/personal/DDM.jpeg" alt=DDM" class="team-photo">
+                    <img src="/bilder/personal/DDM.jpeg" alt=DDM" class="team-photo">
                     <div class="team-name">Elisa, Sila& Maëlle</div>
-                    <div class="team-role">AG, Aktionen, VK</div>
+                    <div class="team-role">Verkauf, AG</div>
                 </div>
                 </div>
                 <!-- Weitere Teammitglieder nach Bedarf -->
@@ -895,216 +817,7 @@
         }
         window.addEventListener('scroll', onScroll);
         onScroll();
-
-        // Admin functionality
-        let isLoggedIn = false;
-        const ADMIN_PASSWORD = 'admin123'; // Change this
-
-        function openLoginModal() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-
-        function closeLoginModal() {
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('adminUsername').value = '';
-            document.getElementById('adminPassword').value = '';
-        }
-
-        function login() {
-            const username = document.getElementById('adminUsername').value;
-            const password = document.getElementById('adminPassword').value;
-            if (username === 'mio' && password === ADMIN_PASSWORD) {
-                isLoggedIn = true;
-                closeLoginModal();
-                document.getElementById('adminPanel').style.display = 'block';
-                loadAdminData();
-            } else {
-                alert('Falscher Benutzername oder Passwort');
-            }
-        }
-
-        function logout() {
-            isLoggedIn = false;
-            document.getElementById('adminPanel').style.display = 'none';
-        }
-
-        function showTab(tab) {
-            document.getElementById('insightsTab').style.display = tab === 'insights' ? 'block' : 'none';
-            document.getElementById('messagesTab').style.display = tab === 'messages' ? 'block' : 'none';
-            document.getElementById('ordersTab').style.display = tab === 'orders' ? 'block' : 'none';
-            document.getElementById('blogTab').style.display = tab === 'blog' ? 'block' : 'none';
-
-            // Update button styles
-            const buttons = ['insightsBtn', 'messagesBtn', 'ordersBtn', 'blogBtn'];
-            buttons.forEach(id => {
-                const btn = document.getElementById(id);
-                if (id === tab + 'Btn') {
-                    btn.style.background = 'var(--fair-blue)';
-                    btn.style.color = 'white';
-                } else {
-                    btn.style.background = '#ccc';
-                    btn.style.color = 'black';
-                }
-            });
-        }
-
-        function loadAdminData() {
-            // Load page views
-            const viewsData = JSON.parse(localStorage.getItem('viewsData') || '[]');
-            const totalViews = viewsData.reduce((sum, v) => sum + v.views, 0);
-            document.getElementById('pageViews').textContent = totalViews;
-            generateCalendar();
-
-            // Load messages
-            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
-            document.getElementById('messagesList').innerHTML = messages.map((m, index) => `<div style="border:1px solid #ccc; padding:10px; margin:10px 0;"><strong>${m.name}</strong> (${m.email}): ${m.message}<br><button onclick="deleteMessage(${index})" style="margin-top:5px; background:red; color:white; border:none; padding:5px;">Löschen</button></div>`).join('');
-
-            // Load orders
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            document.getElementById('ordersList').innerHTML = orders.map(o => `<div style="border:1px solid #ccc; padding:10px; margin:10px 0;"><strong>Bestellung:</strong> ${o.items.join(', ')} - Gesamt: ${o.total}</div>`).join('');
-
-            // Load blog posts
-            loadBlogPosts();
-        }
-
-        function deleteMessage(index) {
-            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
-            messages.splice(index, 1);
-            localStorage.setItem('messages', JSON.stringify(messages));
-            loadAdminData();
-        }
-
-        function generateCalendar() {
-            const calendarEl = document.getElementById('calendar');
-            const currentYear = new Date().getFullYear();
-            let html = '';
-            for (let month = 0; month < 12; month++) {
-                const monthName = new Date(currentYear, month).toLocaleString('default', { month: 'long' });
-                html += `<h3>${monthName} ${currentYear}</h3>`;
-                html += '<table style="width:100%; border-collapse:collapse; margin-bottom:20px;">';
-                // Header
-                html += '<tr><th style="border:1px solid #ccc; padding:5px;">Mo</th><th style="border:1px solid #ccc; padding:5px;">Di</th><th style="border:1px solid #ccc; padding:5px;">Mi</th><th style="border:1px solid #ccc; padding:5px;">Do</th><th style="border:1px solid #ccc; padding:5px;">Fr</th><th style="border:1px solid #ccc; padding:5px;">Sa</th><th style="border:1px solid #ccc; padding:5px;">So</th></tr>';
-                const firstDay = new Date(currentYear, month, 1).getDay(); // 0=Sonntag
-                const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1; // Montag als 0
-                const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
-                let day = 1;
-                for (let week = 0; week < 6; week++) {
-                    html += '<tr>';
-                    for (let wd = 0; wd < 7; wd++) {
-                        if ((week === 0 && wd < adjustedFirstDay) || day > daysInMonth) {
-                            html += '<td style="border:1px solid #ccc; padding:5px;"></td>';
-                        } else {
-                            const dateStr = `${currentYear}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-                            html += `<td style="border:1px solid #ccc; padding:5px; text-align:center; cursor:pointer;" onclick="showDayViews('${dateStr}')">${day}</td>`;
-                            day++;
-                        }
-                    }
-                    html += '</tr>';
-                    if (day > daysInMonth) break;
-                }
-                html += '</table>';
-            }
-            calendarEl.innerHTML = html;
-        }
-
-        function showDayViews(dateStr) {
-            const dateObj = new Date(dateStr);
-            const dateKey = dateObj.toDateString();
-            const viewsData = JSON.parse(localStorage.getItem('viewsData') || '[]');
-            const entry = viewsData.find(v => v.date === dateKey);
-            const views = entry ? entry.views : 0;
-            document.getElementById('selectedDayViews').textContent = `Aufrufe am ${dateStr}: ${views}`;
-        }
-
-        function loadBlogPosts() {
-            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-            document.getElementById('blogPostsList').innerHTML = posts.map((p, index) => `<div style="border:1px solid #ccc; padding:10px; margin:10px 0;"><h3>${p.title}</h3><p>${p.date}</p><p>${p.content}</p>${p.image ? `<img src="${p.image}" style="max-width:100%;">` : ''}<br><button onclick="deleteBlogPost(${index})" style="margin-top:5px; background:red; color:white; border:none; padding:5px;">Löschen</button></div>`).join('');
-        }
-
-        function addBlogPost() {
-            const title = document.getElementById('blogTitle').value;
-            const content = document.getElementById('blogContent').value;
-            const imageInput = document.getElementById('blogImage');
-            if (title && content) {
-                const file = imageInput.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const imageData = e.target.result;
-                        saveBlogPost(title, content, imageData);
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    saveBlogPost(title, content, '');
-                }
-            }
-        }
-
-        function saveBlogPost(title, content, image) {
-            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-            posts.push({ title, content, image, date: new Date().toLocaleDateString() });
-            localStorage.setItem('blogPosts', JSON.stringify(posts));
-            document.getElementById('blogTitle').value = '';
-            document.getElementById('blogContent').value = '';
-            document.getElementById('blogImage').value = '';
-            loadBlogPosts();
-            loadPublicBlogPosts(); // Update public blog
-        }
-
-        function deleteBlogPost(index) {
-            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-            posts.splice(index, 1);
-            localStorage.setItem('blogPosts', JSON.stringify(posts));
-            loadBlogPosts();
-        }
-
-        // Modify submitForm to save locally
-        function submitForm(){
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const message = document.getElementById('message').value.trim();
-            const status = document.getElementById('formStatus');
-
-            if(!name || !email || !message){
-                status.textContent = 'Bitte füllen Sie alle Pflichtfelder aus.';
-                status.style.color = 'crimson';
-                return;
-            }
-            status.style.color = 'var(--muted)';
-            status.textContent = 'Nachricht gespeichert.';
-
-            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
-            messages.push({ name, email, message, date: new Date().toISOString() });
-            localStorage.setItem('messages', JSON.stringify(messages));
-
-            document.getElementById('contactForm').reset();
-        }
-
-        function loadPublicBlogPosts() {
-            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-            document.getElementById('publicBlogPosts').innerHTML = posts.map(p => `<div style="border:1px solid #ccc; padding:10px; margin:10px 0;"><h3>${p.title}</h3><p>${p.date}</p><p>${p.content}</p>${p.image ? `<img src="${p.image}" style="max-width:100%;">` : ''}</div>`).join('');
-        }
-
-        // Load public blog on page load
-        window.addEventListener('load', function() {
-            loadPublicBlogPosts();
-            // Count page view
-            let viewsData = JSON.parse(localStorage.getItem('viewsData') || '[]');
-            const today = new Date().toDateString();
-            let todayEntry = viewsData.find(v => v.date === today);
-            if (!todayEntry) {
-                todayEntry = { date: today, views: 0 };
-                viewsData.push(todayEntry);
-            }
-            todayEntry.views++;
-            localStorage.setItem('viewsData', JSON.stringify(viewsData));
-        });
     </script>
 </body>
 
 </html>
-
-
-
-
-
