@@ -6,6 +6,30 @@
     <title>FairShop am RGW</title>
     <meta name="description" content="FairShop am RGW – Fair gehandelte Produkte, Nachhaltigkeit und Informationen" />
 
+        <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, query, where } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+        // Firebase configuration - REPLACE WITH YOUR OWN
+        const firebaseConfig = {
+            apiKey: "AIzaSyBwpyIIaykAGa5hLcQoqviJBfiuADg-NPY",
+            authDomain: "fairshop-rgw.firebasestorage.com",
+            projectId: "fairshop-rgw",
+            storageBucket: "fairshop-rgw.firebasestorage.com",
+            messagingSenderId: "947115847170",
+            appId: "1:974115847170:web:4e406d321a3a815fb7c11b"
+            measurementId: "G-6YH3ZZSSSL"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Make db global for use in other scripts
+        window.db = db;
+    </script>
+
     <style>
                :root{
             --fair-blue: #00B0DB;
@@ -1079,6 +1103,7 @@
 </body>
 
 </html>
+
 
 
 
